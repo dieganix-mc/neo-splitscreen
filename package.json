@@ -1,0 +1,21 @@
+{
+  "name": "neo-splitscreen",
+  "version": "0.1.0",
+  "description": "Minecraft Java split-screen setup companion",
+  "main": "main.js",
+  "author": "Neo Splitscreen contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "app.neo.splitscreen",
+    "productName": "Neo Splitscreen",
+    "directories": {"output": "dist"},
+    "files": ["main.js", "preload.js", "index.html", "style.css", "app.js", "README.md", "LICENSE"],
+    "win": {"target": ["nsis"]},
+    "nsis": {"oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true}
+  },
+  "devDependencies": {"electron": "^44.4.3", "electron-builder": "^26.15.3"}
+}

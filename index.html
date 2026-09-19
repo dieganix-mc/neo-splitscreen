@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Neo Splitscreen</title><link rel="stylesheet" href="style.css"></head>
+<body>
+  <div class="ambient a"></div><div class="ambient b"></div><div class="grain"></div>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-icon">N<span></span></span><div><strong>NEO</strong><small>SPLITSCREEN</small></div></div>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav active" data-page="overview"><span>◈</span> Overview</button>
+      <button class="nav" data-page="setup"><span>▤</span> Setup guide</button>
+      <button class="nav" data-page="about"><span>◎</span> About & help</button>
+      <div class="sidebar-bottom"><div class="edition-dot"></div><div><strong>Minecraft Java</strong><small>Windows 10 / 11</small></div></div>
+    </aside>
+    <main>
+      <header><div class="eyebrow">MINECRAFT EDITION <span>·</span> LOCAL CO-OP</div><div class="header-right"><span class="pill"><i></i> Two players</span><span class="version">v0.1.0</span></div></header>
+      <section id="overview" class="page active">
+        <div class="hero"><div class="hero-art"><div class="tile one"></div><div class="tile two"></div><div class="split-line"></div><span class="art-label left">PLAYER 01</span><span class="art-label right">PLAYER 02</span></div><div class="hero-content"><div class="kicker">WELCOME TO NEO</div><h1>One world.<br><em>Two perspectives.</em></h1><p>Set up two Minecraft Java players on one Windows PC, each with a dedicated keyboard and mouse.</p><button id="get-started" class="primary">Get started <span>→</span></button></div></div>
+        <div class="section-heading"><div><div class="kicker">YOUR SETUP</div><h2>Ready when you are</h2></div><span id="readiness" class="status">Checking system…</span></div>
+        <div class="cards"><div class="card"><div class="card-icon">⌘</div><strong>Windows PC</strong><p>Designed for Windows 10 and 11.</p><span id="windows-status" class="badge">Checking</span></div><div class="card"><div class="card-icon">▦</div><strong>Minecraft Java</strong><p>Two separate Java Edition game instances.</p><span id="minecraft-status" class="badge">Checking</span></div><div class="card"><div class="card-icon">⌁</div><strong>Input engine</strong><p>Nucleus Co-op with Proto Input routes each device.</p><span id="engine-status" class="badge">Not configured</span></div></div>
+        <div class="notice"><span>✦</span><p><strong>How input works</strong><br>Neo uses Nucleus Co-op's Minecraft handler and Proto Input to identify each keyboard and mouse, maintain input for both windows, and arrange the game view. Assign devices inside Nucleus when it opens.</p></div>
+      </section>
+      <section id="setup" class="page">
+        <div class="page-title"><div class="kicker">FOUR SIMPLE STEPS</div><h1>Build your session.</h1><p>Follow these steps in order for two keyboards and two mice.</p></div>
+        <div class="steps">
+          <article class="step"><div class="step-number">01</div><div><h3>Install the input engine</h3><p>Download the official Nucleus Co-op release, extract it, and select its <code>NucleusCoop.exe</code>. Neo does not install or modify the game.</p><div class="step-actions"><button id="download-engine" class="secondary">Official releases ↗</button><button id="select-engine" class="secondary accent">Select NucleusCoop.exe</button></div><small id="selected-path">No executable selected</small></div></article>
+          <article class="step"><div class="step-number">02</div><div><h3>Add Minecraft Java Edition</h3><p>Open Nucleus Co-op and install its Minecraft Java Edition handler. Follow the handler's launcher and profile prompts. Use separate game accounts when required.</p><div class="step-actions"><button id="minecraft-guide" class="secondary">Minecraft guide ↗</button></div></div></article>
+          <article class="step"><div class="step-number">03</div><div><h3>Pair each device</h3><p>Move each mouse and press a key on each keyboard to identify them. Assign one mouse and one keyboard to each player slot in Nucleus. Select a left/right or top/bottom layout.</p><div class="device-visual"><div><span>01</span>⌨ &nbsp; + &nbsp; ◉</div><div class="visual-divider"></div><div><span>02</span>⌨ &nbsp; + &nbsp; ◉</div></div></div></article>
+          <article class="step"><div class="step-number">04</div><div><h3>Launch and play</h3><p>Start the session in Nucleus. Open a world to LAN in one instance and join it from the other. Press <kbd>End</kbd> to lock or unlock input after both instances are ready.</p><div class="step-actions"><button id="launch" class="primary">Open Nucleus Co-op <span>↗</span></button></div></div></article>
+        </div>
+      </section>
+      <section id="about" class="page"><div class="page-title"><div class="kicker">BUILT FOR LOCAL PLAY</div><h1>About Neo.</h1><p>A focused setup companion for Minecraft Java split-screen.</p></div><div class="about-grid"><div class="about-card"><div class="card-icon">✧</div><h3>Why another app?</h3><p>Neo gives Minecraft players a focused, animated path into the existing Nucleus Co-op and Proto Input workflow. The routing and game hooks come from those independent open-source projects.</p></div><div class="about-card"><div class="card-icon">⌁</div><h3>What you need</h3><p>Windows 10 or 11, two keyboards, two mice, Minecraft Java Edition, enough memory for two game instances, and the official Nucleus Co-op release.</p></div></div><div class="notice"><span>ⓘ</span><p>Game versions, launchers, mods, devices, and PC performance vary. Neo cannot guarantee compatibility with every setup. Test both cameras, movement, clicks, scroll wheels, inventory, and focus before a longer session.</p></div><div class="step-actions"><button id="proto-docs" class="secondary">Proto Input docs ↗</button><button id="faq" class="secondary">Troubleshooting ↗</button></div></section>
+      <div id="toast" role="status"></div>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body></html>
