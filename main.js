@@ -1,23 +1,18 @@
-const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
-const { existsSync, readFileSync, writeFileSync, mkdirSync } = require('fs');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const { existsSync } = require('fs');
 const path = require('path');
-const os = require('os');
-const { spawn } = require('child_process');
+const { execFile } = require('child_process');
 
-const settingsDir = path.join(app.getPath('userData'));
-const settingsFile = path.join(settingsDir, 'settings.json');
-const allowedUrls = new Set([
-  'https://github.com/SplitScreen-Me/splitscreenme-nucleus/releases',
-  'https://www.splitscreen.me/docs/proto/',
-  'https://www.splitscreen.me/docs/faq/',
-  'https://nucleuscoop.org/games/minecraft/'
-]);
-function readSettings() {
-  try { return JSON.parse(readFileSync(settingsFile, 'utf8')); } catch { return {}; }
+function helperPath() {
+  return app.isPackaged ? path.join(process.resourcesPath, 'neo_windows.exe') : path.join(__dirname, 'native', 'neo_windows.exe');
 }
-function saveSettings(data) {
-  mkdirSync(settingsDir, { recursive: true });
-  writeFileSync(settingsFile, JSON.stringify(data, null, 2));
+function helper(args) {
+  return new Promise((resolve, reject) => {
+    execFile(helperPath(), args, { windowsHide: true, timeout: 10000 }, (error, stdout, stderr) => {
+      if (error) return reject(new Error(stderr.trim() || error.message));
+      try { resolve(JSON.parse(stdout)); } catch { reject(new Error('The Windows helper returned invalid data.')); }
+    });
+  });
 }
 function createWindow() {
   const win = new BrowserWindow({
@@ -32,30 +27,10 @@ app.whenReady().then(createWindow);
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
 app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 
-ipcMain.handle('system:info', () => ({
-  platform: process.platform,
-  windowsVersion: os.release(),
-  minecraftDirFound: existsSync(path.join(app.getPath('appData'), '.minecraft')),
-  settings: readSettings()
-}));
-ipcMain.handle('nucleus:pick', async () => {
-  const result = await dialog.showOpenDialog({ title: 'Select NucleusCoop.exe', properties: ['openFile'], filters: [{ name: 'Executable', extensions: ['exe'] }] });
-  if (result.canceled) return null;
-  const selected = result.filePaths[0];
-  if (path.basename(selected).toLowerCase() !== 'nucleuscoop.exe') throw new Error('Select the NucleusCoop.exe file from the official Nucleus Co-op installation.');
-  const settings = { ...readSettings(), nucleusPath: selected };
-  saveSettings(settings);
-  return selected;
-});
-ipcMain.handle('nucleus:launch', async () => {
-  const selected = readSettings().nucleusPath;
-  if (!selected || !existsSync(selected)) throw new Error('Select an existing NucleusCoop.exe first.');
-  if (path.basename(selected).toLowerCase() !== 'nucleuscoop.exe') throw new Error('Configured file is not NucleusCoop.exe.');
-  const child = spawn(selected, [], { cwd: path.dirname(selected), detached: true, stdio: 'ignore' });
-  child.unref();
-  return true;
-});
-ipcMain.handle('external:open', async (_event, url) => {
-  if (!allowedUrls.has(url)) throw new Error('Unrecognized link.');
-  await shell.openExternal(url);
+ipcMain.handle('system:info', () => ({ platform: process.platform, minecraftDirFound: existsSync(path.join(app.getPath('appData'), '.minecraft')) }));
+ipcMain.handle('neo:devices', () => helper(['devices']));
+ipcMain.handle('neo:windows', () => helper(['windows']));
+ipcMain.handle('neo:layout', (_event, orientation) => {
+  if (!['vertical', 'horizontal'].includes(orientation)) throw new Error('Unknown layout.');
+  return helper(['layout', orientation]);
 });

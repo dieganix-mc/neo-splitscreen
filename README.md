@@ -1,33 +1,33 @@
 # Neo Splitscreen
 
-Neo Splitscreen is a Minecraft Java Edition setup companion for Windows 10/11. Its animated desktop interface guides two players through installing and launching **Nucleus Co-op**, which uses **Proto Input** to route separate keyboards and mice to separate Minecraft instances.
+Neo Splitscreen is an **independent Minecraft Java Edition split-screen project** for Windows 10/11. It no longer launches or depends on Nucleus Co-op.
 
-## Important scope
+## Current status
 
-The Neo app does **not** implement input hooks, launch Minecraft instances, or perform device routing itself. Those functions require the independent Nucleus Co-op Minecraft Java handler and Proto Input. The installer packages only this companion application. Do not describe the installer as a standalone split-screen implementation.
+**Development prototype; not gameplay-ready.** The native Windows component detects raw keyboard and mouse HID entries, finds visible Java windows, and arranges exactly two windows side by side or top and bottom. Physical device pairing, per-instance keyboard and mouse routing, unfocused gameplay, and independent first-person camera movement are **not implemented**. No claim of full or 100% compatibility is made.
 
-## Use
+The older `v0.1.0` release is a Nucleus Co-op setup companion. It does not match the independent direction of this source tree and should not be used as proof of a self-contained implementation.
 
-1. Download and extract the [official Nucleus Co-op release](https://github.com/SplitScreen-Me/splitscreenme-nucleus/releases).
-2. Open Neo Splitscreen and select `NucleusCoop.exe`.
-3. Open Nucleus and install its Minecraft Java Edition handler. Follow the handler prompts for your launcher, profiles and accounts.
-4. Identify each keyboard by pressing a key and each mouse by moving it. Assign a pair to each player. Choose a split layout.
-5. Launch both instances, open a world to LAN from the first, and join from the second. Press **End** when ready to lock input. Test movement, first person cameras, clicks, scroll, inventory and menus on both sides.
+## Build this prototype
 
-Version and launcher compatibility varies. The local app cannot establish a 100% guarantee on other PCs without end-to-end testing on those devices.
-
-## Build
+Requires Node.js and Visual Studio 2022 C++ Build Tools on Windows.
 
 ```powershell
 npm install
-npm run start
-npm run dist
+npm run build:native
+npm start
 ```
 
-The Windows NSIS installer is written to `dist/`.
+`npm run dist` builds a prototype installer. Do not publish it as a gameplay-ready release.
+
+## Native component
+
+`native/neo_windows.cpp` uses the Windows Raw Input device list to enumerate keyboard and mouse HID entries, `EnumWindows` to find visible Java processes, and `SetWindowPos` to arrange two windows. Some physical keyboards appear as multiple HID entries, so the enumeration count is not a reliable count of players.
+
+## Research and next engineering steps
+
+Windows ordinary input is shared by the focused window. Independent gameplay requires a device-specific input route into each Minecraft process and handling of Minecraft's focus-dependent behavior. A version-specific Minecraft mod with a native Raw Input bridge is a possible path that avoids third-party process injection. It will require separate Minecraft profiles, account and launcher handling, and hardware validation across movement, clicks, scroll, inventory, menus, simultaneous camera motion, and input unlock or recovery.
 
 ## Credits
 
-Neo Splitscreen is independent of Mojang, Microsoft, Nucleus Co-op, Proto Input, and Universal Split Screen. Nucleus Co-op is GPL-3.0 licensed; Proto Input is MIT licensed. This repository does not copy or redistribute either project's binaries or source. See their repositories for their own licensing and support.
-
-The attached Universal Split Screen screenshot was used as a reference for the setup flow only. Instructions shown inside it are third-party documentation, not the user's instruction to modify binaries or bypass licensing.
+The interface design was informed by the user-provided Universal Split Screen screenshot; the screenshot's instructions are third-party content. This repository contains no Nucleus Co-op or Proto Input code or binaries. Neo is not affiliated with Mojang or Microsoft.
