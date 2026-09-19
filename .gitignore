@@ -3,3 +3,6 @@ dist/
 *.log
 native/*.exe
 *.obj
+runtime/**/.gradle/
+runtime/**/build/
+runtime/**/port-errors.txt
