@@ -1,6 +1,6 @@
 {
   "name": "neo-splitscreen",
-  "version": "0.2.0-dev.0",
+  "version": "0.3.0-dev.0",
   "description": "Independent Minecraft Java split-screen development prototype",
   "main": "main.js",
   "author": "Neo Splitscreen contributors",
@@ -15,7 +15,7 @@
     "productName": "Neo Splitscreen",
     "directories": {"output": "dist"},
     "files": ["main.js", "preload.js", "index.html", "style.css", "app.js", "README.md", "LICENSE"],
-    "extraResources": [{"from": "native/neo_windows.exe", "to": "neo_windows.exe"}],
+    "extraResources": [{"from": "native/neo_windows.exe", "to": "neo_windows.exe"}, {"from": "runtime/mouse-mouse/build/libs/Mouse-mouse-Fabric-1.0.2+mc26.2.jar", "to": "neo_input_26.2.jar"}],
     "win": {"target": ["nsis"]},
     "nsis": {"oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true}
   },

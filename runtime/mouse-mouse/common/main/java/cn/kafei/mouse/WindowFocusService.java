@@ -77,7 +77,7 @@ public final class WindowFocusService {
         accessor.mouse$setMouseGrabbed(true);
         accessor.mouse$setXpos(centerX);
         accessor.mouse$setYpos(centerY);
-        InputConstants.grabOrReleaseMouse(mc.getWindow().handle(), 212995, centerX, centerY);
+        InputConstants.grabOrReleaseMouse(mc.getWindow(), 212995, centerX, centerY);
         accessor.mouse$invokeSetIgnoreFirstMove();
     }
 

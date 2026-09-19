@@ -1,33 +1,31 @@
 # Neo Splitscreen
 
-Neo Splitscreen is an **independent Minecraft Java Edition split-screen project** for Windows 10/11. It no longer launches or depends on Nucleus Co-op.
+Neo Splitscreen is an independent Minecraft Java Edition split-screen project for Windows 10/11. It does not use Nucleus Co-op.
 
 ## Current status
 
-**Development prototype; not gameplay-ready.** The native Windows component detects raw keyboard and mouse HID entries, finds visible Java windows, and arranges exactly two windows side by side or top and bottom. Physical device pairing, per-instance keyboard and mouse routing, unfocused gameplay, and independent first-person camera movement are **not implemented**. No claim of full or 100% compatibility is made.
+This development build includes a native Windows device/window helper and a Minecraft 26.2 Fabric input mod. The mod builds and launches on Minecraft 26.2. Its Raw Input splitter starts and listens locally. **Two-instance gameplay, separate camera movement, and unfocused input have not been validated.** It is not a 100% working release.
 
-The older `v0.1.0` release is a Nucleus Co-op setup companion. It does not match the independent direction of this source tree and should not be used as proof of a self-contained implementation.
+The desktop application can install the 26.2 mod into chosen Minecraft game directories and arrange two visible Java windows. Each game instance must use Minecraft 26.2, Fabric Loader, Fabric API, and a separate game directory. Device assignment is opened inside each game with Alt + F8.
 
-## Build this prototype
+## Build
 
-Requires Node.js and Visual Studio 2022 C++ Build Tools on Windows.
+Requires Node.js, Visual Studio 2022 C++ Build Tools, and Java 25 on Windows.
 
 ```powershell
+cd runtime/mouse-mouse
+.\gradlew.bat build
+cd ../..
 npm install
-npm run build:native
-npm start
+npm run dist
 ```
 
-`npm run dist` builds a prototype installer. Do not publish it as a gameplay-ready release.
+The installer is written to `dist/`. This is a development installer, not a verified gameplay release.
 
-## Native component
+## Native input runtime and license
 
-`native/neo_windows.cpp` uses the Windows Raw Input device list to enumerate keyboard and mouse HID entries, `EnumWindows` to find visible Java processes, and `SetWindowPos` to arrange two windows. Some physical keyboards appear as multiple HID entries, so the enumeration count is not a reliable count of players.
+The game-side input router is a derivative port of [Mouse-mouse](https://github.com/kafei520-CN/Mouse-mouse) commit `5ab275ef8069052e3af967e9e19bc4a2e54f33e1`, by kafei520-CN, licensed GPL-3.0-only. Its source, license, and native `splitter.cpp` are under `runtime/mouse-mouse/`. The bundled `splitter.exe` is compiled from that source. The Neo desktop shell is MIT licensed. This repository and its source archives provide the corresponding source for the runtime.
 
-## Research and next engineering steps
+The earlier v0.1.0 release is a superseded Nucleus Co-op setup companion and does not satisfy this project's independent goal.
 
-Windows ordinary input is shared by the focused window. Independent gameplay requires a device-specific input route into each Minecraft process and handling of Minecraft's focus-dependent behavior. A version-specific Minecraft mod with a native Raw Input bridge is a possible path that avoids third-party process injection. It will require separate Minecraft profiles, account and launcher handling, and hardware validation across movement, clicks, scroll, inventory, menus, simultaneous camera motion, and input unlock or recovery.
-
-## Credits
-
-The interface design was informed by the user-provided Universal Split Screen screenshot; the screenshot's instructions are third-party content. This repository contains no Nucleus Co-op or Proto Input code or binaries. Neo is not affiliated with Mojang or Microsoft.
+Neo is not affiliated with Mojang or Microsoft.

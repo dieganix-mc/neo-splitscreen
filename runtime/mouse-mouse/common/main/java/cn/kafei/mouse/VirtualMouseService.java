@@ -189,7 +189,7 @@ public final class VirtualMouseService {
 
     private static void updateMousePressState(Minecraft mc, int button, boolean pressed) {
         MouseHandlerAccessor accessor = (MouseHandlerAccessor) mc.mouseHandler;
-        accessor.mouse$setActiveButton(pressed ? button : -1);
+        accessor.mouse$setActiveButton(pressed ? new net.minecraft.client.input.MouseButtonInfo(button, 0) : null);
         if (pressed) {
             accessor.mouse$setMousePressedTime(Blaze3D.getTime());
         }
@@ -216,7 +216,7 @@ public final class VirtualMouseService {
         MouseHandlerAccessor accessor = (MouseHandlerAccessor) mc.mouseHandler;
         accessor.mouse$setXpos(position.x());
         accessor.mouse$setYpos(position.y());
-        accessor.mouse$setActiveButton(-1);
+        accessor.mouse$setActiveButton(null);
     }
 
     private static boolean shouldRestoreNativeMousePosition(Minecraft mc) {

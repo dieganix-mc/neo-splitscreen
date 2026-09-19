@@ -1,6 +1,7 @@
 package cn.kafei.mouse.mixin;
 
 import net.minecraft.client.MouseHandler;
+import net.minecraft.client.input.MouseButtonInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -14,7 +15,7 @@ public interface MouseHandlerAccessor {
     void mouse$setYpos(double ypos);
 
     @Accessor("activeButton")
-    void mouse$setActiveButton(int activeButton);
+    void mouse$setActiveButton(MouseButtonInfo activeButton);
 
     @Accessor("mousePressedTime")
     void mouse$setMousePressedTime(double mousePressedTime);

@@ -6,3 +6,4 @@ native/*.exe
 runtime/**/.gradle/
 runtime/**/build/
 runtime/**/port-errors.txt
+runtime/**/run/

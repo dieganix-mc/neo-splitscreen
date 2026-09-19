@@ -7,10 +7,12 @@
     "GameRendererMixin",
     "InputConstantsMixin",
     "KeyboardHandlerMixin",
+    "KeyboardHandlerAccessor",
     "KeyMappingMixin",
     "MinecraftIsWindowActiveMixin",
     "MouseHandlerAccessor",
     "MouseHandlerMixin"
+    ,"ScreenCursorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

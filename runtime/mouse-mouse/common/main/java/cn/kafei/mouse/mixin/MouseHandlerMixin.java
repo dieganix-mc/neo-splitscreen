@@ -2,6 +2,7 @@ package cn.kafei.mouse.mixin;
 
 import cn.kafei.mouse.InputIsolationService;
 import net.minecraft.client.MouseHandler;
+import net.minecraft.client.input.MouseButtonInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,8 +15,8 @@ public class MouseHandlerMixin {
     @Shadow private double accumulatedDY;
 
     // 屏蔽游戏内原生鼠标按键，防止聚焦窗口接收未绑定设备输入。
-    @Inject(method = "onPress", at = @At("HEAD"), cancellable = true)
-    private void mouse$blockNativeMouseButton(long windowPointer, int button, int action, int modifiers, CallbackInfo ci) {
+    @Inject(method = "onButton", at = @At("HEAD"), cancellable = true)
+    private void mouse$blockNativeMouseButton(long windowPointer, MouseButtonInfo button, int action, CallbackInfo ci) {
         if (InputIsolationService.shouldBlockMouse(windowPointer)) {
             ci.cancel();
         }

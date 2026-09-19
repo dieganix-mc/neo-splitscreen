@@ -20,8 +20,14 @@ async function refresh() {
   $('devices-list').textContent = devices.length ? devices.map(d => `${d.type.toUpperCase()} · ${d.name}`).join('\n') : 'No input devices found.';
 }
 $('refresh').addEventListener('click', () => refresh().catch(e => toast(e.message)));
+document.getElementById('install-runtime').addEventListener('click', async () => {
+  try {
+    const paths = await window.neo.installRuntime();
+    if (paths.length) toast(`Installed the Minecraft 26.2 input runtime in ${paths.length} game director${paths.length === 1 ? 'y' : 'ies'}.`);
+  } catch (e) { toast(e.message); }
+});
 document.querySelectorAll('[data-layout]').forEach(el => el.addEventListener('click', async () => {
-  try { await window.neo.layout(el.dataset.layout); toast('Minecraft windows arranged. Input routing is not implemented yet.'); }
+  try { await window.neo.layout(el.dataset.layout); toast('Minecraft windows arranged. Select devices in each instance with Alt + F8.'); }
   catch (e) { toast(e.message); }
 }));
 refresh().catch(e => toast(e.message));

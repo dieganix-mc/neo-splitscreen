@@ -2,6 +2,8 @@ package cn.kafei.mouse;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 
 public final class VirtualScreenMouseRouter {
     private static final double WHEEL_DELTA = 120.0;
@@ -10,26 +12,20 @@ public final class VirtualScreenMouseRouter {
     }
 
     public static void dispatchMove(Screen screen, double guiX, double guiY, int activeButton, double dragX, double dragY) {
-        Screen.wrapScreenError(() -> screen.mouseMoved(guiX, guiY), "mouseMoved event handler", screen.getClass().getCanonicalName());
+        screen.mouseMoved(guiX, guiY);
         if (activeButton != -1) {
-            Screen.wrapScreenError(() -> {
-                screen.mouseDragged(guiX, guiY, activeButton, dragX, dragY);
-            }, "mouseDragged event handler", screen.getClass().getCanonicalName());
+            screen.mouseDragged(new MouseButtonEvent(guiX, guiY, new MouseButtonInfo(activeButton, 0)), dragX, dragY);
         }
         screen.afterMouseMove();
     }
 
     public static void dispatchClick(Screen screen, double guiX, double guiY, int button) {
         screen.afterMouseAction();
-        Screen.wrapScreenError(() -> {
-            screen.mouseClicked(guiX, guiY, button);
-        }, "mouseClicked event handler", screen.getClass().getCanonicalName());
+        screen.mouseClicked(new MouseButtonEvent(guiX, guiY, new MouseButtonInfo(button, 0)), false);
     }
 
     public static void dispatchRelease(Screen screen, double guiX, double guiY, int button) {
-        Screen.wrapScreenError(() -> {
-            screen.mouseReleased(guiX, guiY, button);
-        }, "mouseReleased event handler", screen.getClass().getCanonicalName());
+        screen.mouseReleased(new MouseButtonEvent(guiX, guiY, new MouseButtonInfo(button, 0)));
     }
 
     public static void dispatchScroll(Minecraft mc, Screen screen, double guiX, double guiY, int rolling) {

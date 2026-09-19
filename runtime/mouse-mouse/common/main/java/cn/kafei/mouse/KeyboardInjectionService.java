@@ -1,6 +1,8 @@
 package cn.kafei.mouse;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
+import cn.kafei.mouse.mixin.KeyboardHandlerAccessor;
 import org.lwjgl.glfw.GLFW;
 
 public final class KeyboardInjectionService {
@@ -26,7 +28,8 @@ public final class KeyboardInjectionService {
             int modifiers = InjectedKeyboardState.getModifierMask(glfwKey, pressed);
             InputIsolationService.beginInjectedKeyboardEvent();
             try {
-                mc.keyboardHandler.keyPress(mc.getWindow().handle(), glfwKey, scanCode, action, modifiers);
+                ((KeyboardHandlerAccessor) mc.keyboardHandler).mouse$invokeKeyPress(
+                    mc.getWindow().handle(), action, new KeyEvent(glfwKey, scanCode, modifiers));
             } finally {
                 InputIsolationService.endInjectedKeyboardEvent();
             }

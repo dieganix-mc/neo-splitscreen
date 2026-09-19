@@ -1,6 +1,5 @@
 package cn.kafei.mouse.mixin;
 
-import cn.kafei.mouse.VirtualCursorOverlayRenderer;
 import cn.kafei.mouse.VirtualMouseService;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -20,9 +19,5 @@ public class GameRendererMixin {
         VirtualMouseService.syncRenderPosition(mc, deltaTracker.getGameTimeDeltaPartialTick(false));
     }
 
-    @Inject(method = "render", at = @At("TAIL"))
-    private void mouse$renderVirtualCursorOverlay(DeltaTracker deltaTracker, boolean renderWorld, CallbackInfo ci) {
-        VirtualCursorOverlayRenderer.renderFrameEndCursor(Minecraft.getInstance(), deltaTracker.getGameTimeDeltaPartialTick(false));
-    }
 }
 
